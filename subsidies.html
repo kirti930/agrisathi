@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Government Policies - AgriSathi</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    .subsidy-container {
+      padding: 50px;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 25px;
+    }
+    .subsidy-card {
+      background: #fff;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      transition: 0.3s;
+    }
+    .subsidy-card:hover {
+      transform: translateY(-6px);
+    }
+    .subsidy-card h3 {
+      color: #2e7d32;
+      margin-bottom: 10px;
+    }
+    .subsidy-card p {
+      font-size: 15px;
+      margin-bottom: 10px;
+    }
+    .subsidy-card button {
+      padding: 8px 15px;
+      border: none;
+      background: #2e7d32;
+      color: white;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+    .subsidy-card button:hover {
+      background: #1b5e20;
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="logo">
+    <img src="images/logo.png" alt="AgriSathi Logo">
+    <h1>AgriSathi</h1>
+  </div>
+  <nav>
+    <a href="index.html">Home</a>
+    <a href="cropAdvice.html">Crops Advice</a>
+    <a href="diseaseDetection.html">Disease Detection</a>
+    <a href="weather.html">Weather</a>
+    <a href="subsidies.html" class="active">Government Policy</a>
+    <a href="marketPrice.html">Market Prices</a>
+    <a href="community.html">Community</a>
+    <a href="alerts.html">Alerts</a>
+  </nav>
+</header>
+
+<section>
+  <h2 style="text-align:center; margin-top:30px;">💰 Government Schemes & Subsidies</h2>
+  <div class="subsidy-container">
+    
+    <div class="subsidy-card">
+      <h3>Pradhan Mantri Kisan Samman Nidhi (PM-KISAN)</h3>
+      <p>₹6,000 yearly financial support to small & marginal farmers, given in 3 installments.</p>
+      <a href="https://pmkisan.gov.in/" target="_blank">
+      <button>Apply Now</button>
+      </a>
+    </div>
+    
+    <div class="subsidy-card">
+      <h3>Soil Health Card Scheme</h3>
+      <p>Helps farmers get their soil tested and improve productivity with proper nutrients.</p>
+      <a href="https://soilhealth.dac.gov.in/home" target="_blank">
+      <button>Learn More</button>
+      </a>
+    </div>
+    
+    <div class="subsidy-card">
+      <h3>PM Fasal Bima Yojana</h3>
+      <p>Crop insurance scheme to protect farmers from natural disasters & yield losses.</p>
+      <a href="https://pmfby.gov.in/" target="_blank">
+      <button>Apply Now</button>
+      </a>
+    </div>
+    
+    <div class="subsidy-card">
+      <h3>Kisan Credit Card (KCC)</h3>
+      <p>Provides short-term credit to farmers at low interest rates for farming needs.</p>
+      <a href="https://www.myscheme.gov.in/schemes/kcc" target="_blank">
+      <button>Apply Now</button>
+      </a>
+    </div>
+
+  </div>
+</section>
+
+<footer>
+  <p>© 2025 AgriSathi | Smart Farming Solutions</p>
+</footer>
+
+</body>
+</html>

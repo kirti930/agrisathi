@@ -1,0 +1,120 @@
+<!-- 🌍 Sustainability Section -->
+<section id="sustainability" style="margin:40px auto; max-width:750px; background:linear-gradient(135deg,#e8f5e9,#f1f8e9); padding:35px; border-radius:20px; box-shadow:0 10px 25px rgba(0,0,0,0.2);">
+  <h2 style="color:#2e7d32; text-align:center; font-size:30px; margin-bottom:10px;">🌍 Sustainability Meter</h2>
+  <p style="text-align:center; color:#555; font-size:18px;">Check how eco-friendly your farming is & get green tips 🌿</p>
+
+  <!-- Form -->
+  <form id="sustainabilityForm" style="margin-top:25px;">
+    <div style="margin-bottom:20px;">
+      <label style="font-weight:bold;">1️⃣ What type of irrigation do you use?</label>
+      <select id="irrigation" style="width:100%; padding:12px; border-radius:10px; border:2px solid #2e7d32; font-size:16px; cursor:pointer;">
+        <option value="drip">💧 Drip Irrigation</option>
+        <option value="sprinkler">🌫 Sprinkler</option>
+        <option value="flood">🌊 Flood Irrigation</option>
+      </select>
+    </div>
+
+    <div style="margin-bottom:20px;">
+      <label style="font-weight:bold;">2️⃣ Do you use organic fertilizers?</label>
+      <select id="fertilizer" style="width:100%; padding:12px; border-radius:10px; border:2px solid #2e7d32; font-size:16px; cursor:pointer;">
+        <option value="yes">✅ Yes</option>
+        <option value="no">❌ No</option>
+      </select>
+    </div>
+
+    <div style="margin-bottom:20px;">
+      <label style="font-weight:bold;">3️⃣ Do you practice crop rotation?</label>
+      <select id="rotation" style="width:100%; padding:12px; border-radius:10px; border:2px solid #2e7d32; font-size:16px; cursor:pointer;">
+        <option value="yes">✅ Yes</option>
+        <option value="no">❌ No</option>
+      </select>
+    </div>
+
+    <button type="button" onclick="checkSustainability()" 
+      style="padding:14px; width:100%; background:linear-gradient(90deg,#43a047,#66bb6a); color:white; font-size:18px; border:none; border-radius:12px; cursor:pointer; transition:0.3s; font-weight:bold;">
+      🌱 Check My Sustainability Score
+    </button>
+  </form>
+
+  <!-- Progress Bar -->
+  <div style="margin-top:35px;">
+    <div style="background:#ddd; border-radius:30px; overflow:hidden; height:30px;">
+      <div id="progressBar" style="height:30px; width:0%; background:linear-gradient(90deg,#4caf50,#8bc34a); text-align:center; color:white; font-weight:bold; line-height:30px; transition:width 1.5s ease-in-out;"></div>
+    </div>
+    <p id="sustainabilityResult" style="margin-top:20px; text-align:center; font-size:20px; font-weight:bold; color:#2e7d32;"></p>
+    <p id="sustainabilityTip" style="margin-top:10px; text-align:center; font-size:16px; color:#444;"></p>
+
+    <!-- Eco-Friendly Solutions -->
+    <div id="ecoSolutions" style="margin-top:20px; background:#f1f8e9; border-radius:10px; padding:15px; display:none;">
+      <h3 style="color:#2e7d32; text-align:center;">💡 Recommended Eco-Friendly Solutions</h3>
+      <ul id="solutionList" style="list-style:none; padding:0; font-size:16px; color:#333;"></ul>
+    </div>
+  </div>
+</section>
+
+<script>
+  function checkSustainability() {
+    let score = 0;
+    let solutions = [];
+
+    let irrigation = document.getElementById("irrigation").value;
+    let fertilizer = document.getElementById("fertilizer").value;
+    let rotation = document.getElementById("rotation").value;
+
+    // Scoring system
+    if (irrigation === "drip") score += 40;
+    else if (irrigation === "sprinkler") score += 25;
+    else {
+      score += 10;
+      solutions.push("💧 Switch from flood irrigation to drip irrigation to save 50% water.");
+    }
+
+    if (fertilizer === "yes") score += 30;
+    else {
+      solutions.push("🌿 Use organic compost, cow dung, or bio-fertilizers instead of chemicals.");
+    }
+
+    if (rotation === "yes") score += 30;
+    else {
+      solutions.push("🌾 Practice crop rotation to improve soil fertility & reduce pests naturally.");
+    }
+
+    // Animate Progress Bar
+    let progressBar = document.getElementById("progressBar");
+    progressBar.style.width = score + "%";
+    progressBar.innerHTML = score + "%";
+
+    let result = document.getElementById("sustainabilityResult");
+    let tip = document.getElementById("sustainabilityTip");
+    let ecoBox = document.getElementById("ecoSolutions");
+    let solutionList = document.getElementById("solutionList");
+
+    if (score >= 80) {
+      progressBar.style.background = "linear-gradient(90deg,#2ecc71,#27ae60)";
+      result.innerHTML = "🌟 Excellent! Highly Sustainable (Score: " + score + ")";
+      tip.innerHTML = "👏 Great job! You're already farming sustainably.";
+    } else if (score >= 50) {
+      progressBar.style.background = "linear-gradient(90deg,#fbc02d,#f57c00)";
+      result.innerHTML = "🌱 Good! But there’s room for improvement (Score: " + score + ")";
+      tip.innerHTML = "💡 Try adopting a few more eco-friendly methods.";
+    } else {
+      progressBar.style.background = "linear-gradient(90deg,#e53935,#b71c1c)";
+      result.innerHTML = "⚠ Needs Attention! (Score: " + score + ")";
+      tip.innerHTML = "🚜 Switch to sustainable farming methods soon.";
+    }
+
+    // Show Eco Solutions
+    ecoBox.style.display = "block";
+    solutionList.innerHTML = "";
+    if (solutions.length > 0) {
+      solutions.forEach(s => {
+        let li = document.createElement("li");
+        li.innerHTML = s;
+        li.style.margin = "8px 0";
+        solutionList.appendChild(li);
+      });
+    } else {
+      solutionList.innerHTML = "<li>🌍 You are already using highly eco-friendly practices! 🎉</li>";
+    }
+  }
+</script>

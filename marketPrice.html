@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Market Prices - AgriSathi</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header>
+    <div class="logo">
+      <img src="images/logo.png" alt="AgriSathi Logo">
+      <h1>AgriSathi</h1>
+    </div>
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="cropAdvice.html">Crop Advice</a>
+      <a href="diseaseDetection.html">Disease Detection</a>
+      <a href="weather.html">Weather</a>
+      <a href="subsidies.html">Government Policy</a>
+      <a href="marketPrice.html" class="active">Market Prices</a>
+      <a href="community.html">Community</a>
+      <a href="alerts.html">Alerts</a>
+    </nav>
+  </header>
+
+  <section>
+    <h2>📈 Live Market Prices</h2>
+    <p>Data sourced from Agmarknet via Data.gov.in</p>
+
+    <table border="1" cellpadding="10" width="100%">
+      <thead>
+        <tr>
+          <th>Commodity</th>
+          <th>Modal Price (₹/Quintal)</th>
+          <th>State</th>
+          <th>Market</th>
+        </tr>
+      </thead>
+      <tbody id="priceTable">
+        <tr><td colspan="4">Loading...</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <footer>
+    <p>© 2025 AgriSathi | All Rights Reserved</p>
+  </footer>
+
+  <script src="market.js"></script>
+</body>
+</html>

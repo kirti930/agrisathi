@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Farmer Community - AgriSathi</title>
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: #f9fbe7;
+      margin: 0;
+      padding: 0;
+    }
+
+    header {
+      background: #558b2f;
+      color: white;
+      padding: 15px;
+      text-align: center;
+      font-size: 24px;
+      font-weight: bold;
+    }
+
+    .container {
+      max-width: 900px;
+      margin: 30px auto;
+      background: white;
+      padding: 20px;
+      border-radius: 15px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    }
+
+    h2 {
+      text-align: center;
+      color: #33691e;
+    }
+
+    .post-form textarea, .post-form select {
+      width: 100%;
+      padding: 10px;
+      font-size: 16px;
+      border-radius: 8px;
+      border: 2px solid #558b2f;
+      outline: none;
+      margin-bottom: 10px;
+      resize: none;
+    }
+
+    .post-form button {
+      background: #558b2f;
+      color: white;
+      padding: 12px 20px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 16px;
+      transition: 0.3s;
+    }
+
+    .post-form button:hover {
+      background: #33691e;
+    }
+
+    .post {
+      background: #f1f8e9;
+      padding: 15px;
+      border-radius: 10px;
+      margin-bottom: 20px;
+      border-left: 6px solid #558b2f;
+    }
+
+    .post small {
+      color: #666;
+    }
+
+    .actions {
+      margin-top: 10px;
+    }
+
+    .actions button {
+      background: none;
+      border: none;
+      color: #2e7d32;
+      font-weight: bold;
+      cursor: pointer;
+      margin-right: 15px;
+      transition: 0.3s;
+    }
+
+    .actions button:hover {
+      color: #1b5e20;
+    }
+
+    .comment-section {
+      margin-top: 10px;
+      padding-left: 20px;
+    }
+
+    .comment {
+      background: #e6ee9c;
+      padding: 8px;
+      border-radius: 6px;
+      margin: 5px 0;
+    }
+
+    .comment-input {
+      width: 90%;
+      padding: 6px;
+      border-radius: 6px;
+      border: 1px solid #aaa;
+    }
+
+    .comment-btn {
+      padding: 6px 10px;
+      background: #558b2f;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      margin-top: 5px;
+    }
+
+    .comment-btn:hover {
+      background: #33691e;
+    }
+  </style>
+</head>
+<body>
+
+  <header>👩‍🌾 Farmer Community - AgriSathi</header>
+
+  <div class="container">
+    <h2>Share Your Thoughts & Ask Questions</h2>
+
+    <!-- Post Form -->
+    <div class="post-form">
+      <select id="category">
+        <option value="">-- Select Category --</option>
+        <option value="Crops">🌱 Crops</option>
+        <option value="Irrigation">💧 Irrigation</option>
+        <option value="Subsidy">💰 Subsidy</option>
+        <option value="Pesticides">🧴 Pesticides</option>
+        <option value="General">📢 General</option>
+      </select>
+      <textarea id="postInput" placeholder="Write your farming tip, question or experience..."></textarea>
+      <button onclick="addPost()">Post</button>
+    </div>
+
+    <!-- Posts Section -->
+    <div class="posts" id="posts"></div>
+  </div>
+<script>
+  function loadPosts() {
+    const posts = JSON.parse(localStorage.getItem("communityPosts")) || [];
+    const postsDiv = document.getElementById("posts");
+    postsDiv.innerHTML = "";
+
+    posts.forEach((post, index) => {
+      const postDiv = document.createElement("div");
+      postDiv.classList.add("post");
+
+      let commentsHTML = "";
+      post.comments.forEach(c => {
+        commentsHTML += `<div class="comment">${c}</div>`;
+      });
+
+      postDiv.innerHTML = `
+        <p><b>[${post.category}]</b> ${post.text}</p>
+        <small>📅 ${post.date}</small>
+        <div class="actions">
+          <button onclick="likePost(${index})">👍 Like (${post.likes})</button>
+          <button onclick="toggleCommentBox(${index})">💬 Comment</button>
+        </div>
+        <div class="comment-section" id="comment-section-${index}" style="display:none;">
+          ${commentsHTML}
+          <input type="text" class="comment-input" id="comment-input-${index}" placeholder="Write a comment...">
+          <button class="comment-btn" onclick="addComment(${index})">Add</button>
+        </div>
+      `;
+      postsDiv.appendChild(postDiv);
+    });
+  }
+
+  function addPost() {
+    const input = document.getElementById("postInput");
+    const category = document.getElementById("category").value;
+    const text = input.value.trim();
+    if (text === "" || category === "") {
+      alert("Please select category and write something before posting.");
+      return;
+    }
+
+    const posts = JSON.parse(localStorage.getItem("communityPosts")) || [];
+    posts.unshift({
+      category,
+      text,
+      date: new Date().toLocaleString(),
+      likes: 0,
+      comments: []
+    });
+    localStorage.setItem("communityPosts", JSON.stringify(posts));
+
+    input.value = "";
+    document.getElementById("category").value = "";
+    loadPosts();
+  }
+
+  function likePost(index) {
+    const posts = JSON.parse(localStorage.getItem("communityPosts")) || [];
+    posts[index].likes++;
+    localStorage.setItem("communityPosts", JSON.stringify(posts));
+    loadPosts();
+  }
+
+  function addComment(index) {
+    const input = document.getElementById(`comment-input-${index}`);
+    const text = input.value.trim();
+    if (text === "") return;
+
+    const posts = JSON.parse(localStorage.getItem("communityPosts")) || [];
+    posts[index].comments.push(text);
+    localStorage.setItem("communityPosts", JSON.stringify(posts));
+    loadPosts();
+  }
+
+  function toggleCommentBox(index) {
+    const section = document.getElementById(`comment-section-${index}`);
+    section.style.display = section.style.display === "none" ? "block" : "none";
+  }
+
+  loadPosts();
+</script>
+
+</body>
+</html>

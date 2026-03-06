@@ -1,0 +1,402 @@
+<!-- 🌱 Crop Advisory & Calendar Card -->
+<div class="card" style="max-width: 800px; margin: 20px auto; padding: 20px; border-radius: 15px; background: #f9fff6; box-shadow: 0 8px 25px rgba(0,0,0,0.1);">
+  <h1 style="text-align:center; color:#2e7d32;">📅 Crop Advisory & Calendar</h1>
+
+  <!-- Dropdowns -->
+  <div style="display:flex; gap:10px; justify-content:center; margin:15px 0; flex-wrap:wrap;">
+    <select id="typeSelect" onchange="updateCropOptions()" style="padding:10px; border-radius:8px; border:1px solid #ccc; font-size:16px;">
+      <option value="">Select Crop Type</option>
+      <option value="cereals">Cereals</option>
+      <option value="pulses">Pulses</option>
+      <option value="vegetables">Vegetables</option>
+<option value="fruits">Fruits</option>
+<option value="spices">Spices</option>
+<option value="oilseeds">Oilseeds</option>
+<option value="fibers">Fibers</option>
+    </select>
+
+    <select id="cropSelect" onchange="updateRegionOptions()" style="padding:10px; border-radius:8px; border:1px solid #ccc; font-size:16px;">
+      <option value="">Select Crop</option>
+    </select>
+
+    <select id="regionSelect" style="padding:10px; border-radius:8px; border:1px solid #ccc; font-size:16px;">
+      <option value="">Select Region</option>
+    </select>
+  </div>
+
+  <!-- Show Button -->
+  <div style="text-align:center;">
+    <button onclick="showFullSchedule()" style="background:#43a047; color:#fff; border:none; padding:12px 20px; border-radius:10px; font-size:16px; cursor:pointer; transition:0.3s;">
+      🔍 Show Full Year Schedule
+    </button>
+  </div>
+
+  <!-- Results -->
+  <div id="calendar-results" style="margin-top:20px; padding:15px; background:#ffffff; border-radius:10px; box-shadow:inset 0 0 8px rgba(0,0,0,0.05); min-height:60px;">
+    <p style="text-align:center; color:gray;">Select crop type, crop, and region to see the yearly schedule.</p>
+  </div>
+</div>
+
+<script>
+// 🌾 Crop Data with Region & Climate
+const cropSchedules = {
+  wheat: {
+    type: "cereals",
+    regions: {
+      northIndia: {
+        climate: "temperate",
+        schedule: { Jan: "Irrigation & weeding", Feb: "Pest control", Mar: "Harvesting", Apr: "Post-harvest care", May: "Land preparation", Jun: "Soil testing", Jul: "Fallow period", Aug: "Soil treatment", Sep: "Field prep", Oct: "Sowing", Nov: "Crop establishment", Dec: "Weed management" }
+      },
+      southIndia: {
+        climate: "tropical",
+        schedule: { Jan: "Land prep", Feb: "Sowing", Mar: "Irrigation", Apr: "Weeding", May: "Pest control", Jun: "Growth monitoring", Jul: "Harvesting", Aug: "Threshing", Sep: "Storage", Oct: "Soil rest", Nov: "Seed selection", Dec: "Soil enrichment" }
+      }
+    }
+  },
+  rice: {
+    type: "cereals",
+    regions: {
+      eastIndia: {
+        climate: "humid",
+        schedule: { Jan: "Post-harvest prep", Feb: "Soil enrichment", Mar: "Land leveling", Apr: "Water management", May: "Nursery preparation", Jun: "Sowing in nursery", Jul: "Transplanting", Aug: "Weeding & irrigation", Sep: "Pest management", Oct: "Harvesting", Nov: "Threshing & storage", Dec: "Land rest" }
+      },
+      westBengal: {
+        climate: "subtropical",
+        schedule: { Jan: "Field drainage", Feb: "Soil testing", Mar: "Nursery bed prep", Apr: "Seed sowing", May: "Transplanting", Jun: "Fertilizer application", Jul: "Weeding", Aug: "Pest control", Sep: "Grain filling", Oct: "Harvesting", Nov: "Drying & storage", Dec: "Field rest" }
+      }
+    }
+  },
+  chickpea: {
+    type: "pulses",
+    regions: {
+      centralIndia: {
+        climate: "semi-arid",
+        schedule: { Jan: "Growing stage", Feb: "Flowering & irrigation", Mar: "Harvesting", Apr: "Threshing & storage", May: "Soil rest", Jun: "Soil care", Jul: "Seed selection", Aug: "Land prep", Sep: "Pre-sowing", Oct: "Sowing", Nov: "Crop growth", Dec: "Pest management" }
+      }
+    }
+  },
+  tomato: {
+    type: "vegetables",
+    regions: {
+      maharashtra: {
+        climate: "semi-humid",
+        schedule: { Jan: "Harvesting", Feb: "Soil treatment", Mar: "Seed preparation", Apr: "Nursery raising", May: "Transplanting", Jun: "Irrigation & weeding", Jul: "Pest control", Aug: "Flowering", Sep: "Fruit setting", Oct: "Harvesting", Nov: "Harvesting continues", Dec: "Storage" }
+      },
+      tamilNadu: {
+        climate: "tropical",
+        schedule: { Jan: "Seed selection", Feb: "Nursery prep", Mar: "Transplanting", Apr: "Weeding", May: "Fertilizer application", Jun: "Pest control", Jul: "Flowering", Aug: "Fruit development", Sep: "Harvesting", Oct: "Storage", Nov: "Soil rest", Dec: "Land prep" }
+      }
+    }
+  },
+  sunflower: {
+    type: "oilseeds",
+    regions: {
+      gujarat: {
+        climate: "dry",
+        schedule: { Jan: "Land prep", Feb: "Sowing", Mar: "Irrigation", Apr: "Weeding", May: "Pest control", Jun: "Flowering", Jul: "Seed formation", Aug: "Harvesting", Sep: "Threshing", Oct: "Storage", Nov: "Soil rest", Dec: "Seed selection" }
+      },
+      karnataka: {
+        climate: "semi-arid",
+        schedule: { Jan: "Seed selection", Feb: "Sowing", Mar: "Fertilizer application", Apr: "Weeding", May: "Pest control", Jun: "Flowering", Jul: "Harvesting", Aug: "Drying", Sep: "Storage", Oct: "Land rest", Nov: "Soil testing", Dec: "Land prep" }
+      }
+    }
+  },
+
+  // Existing crops...
+
+  // 🥦 Vegetables
+  potato: {
+    type: "vegetables",
+    regions: {
+      himachalPradesh: {
+        climate: "temperate",
+        schedule: {
+          Jan: "Seed selection",
+          Feb: "Land preparation",
+          Mar: "Sowing",
+          Apr: "Irrigation",
+          May: "Weeding",
+          Jun: "Pest control",
+          Jul: "Growth monitoring",
+          Aug: "Harvesting",
+          Sep: "Storage",
+          Oct: "Soil rest",
+          Nov: "Fertilizer application",
+          Dec: "Seed treatment"
+        }
+      }
+    }
+  },
+  onion: {
+    type: "vegetables",
+    regions: {
+      bihar: {
+        climate: "subtropical",
+        schedule: {
+          Jan: "Nursery raising",
+          Feb: "Transplanting",
+          Mar: "Irrigation",
+          Apr: "Weeding",
+          May: "Pest control",
+          Jun: "Bulb formation",
+          Jul: "Harvesting",
+          Aug: "Drying",
+          Sep: "Storage",
+          Oct: "Land rest",
+          Nov: "Soil testing",
+          Dec: "Seed selection"
+        }
+      }
+    }
+  },
+
+  // 🍇 Fruits
+  mango: {
+    type: "fruits",
+    regions: {
+      kerala: {
+        climate: "tropical",
+        schedule: {
+          Jan: "Pruning",
+          Feb: "Fertilizer application",
+          Mar: "Flowering",
+          Apr: "Fruit development",
+          May: "Harvesting",
+          Jun: "Storage",
+          Jul: "Soil rest",
+          Aug: "Seed selection",
+          Sep: "Land prep",
+          Oct: "Sowing",
+          Nov: "Growth monitoring",
+          Dec: "Pest control"
+        }
+      }
+    }
+  },
+  banana: {
+    type: "fruits",
+    regions: {
+      andhraPradesh: {
+        climate: "humid",
+        schedule: {
+          Jan: "Sucker selection",
+          Feb: "Planting",
+          Mar: "Irrigation",
+          Apr: "Weeding",
+          May: "Fertilizer application",
+          Jun: "Pest control",
+          Jul: "Bunch formation",
+          Aug: "Bagging",
+          Sep: "Harvesting",
+          Oct: "Storage",
+          Nov: "Soil rest",
+          Dec: "Land prep"
+        }
+      }
+    }
+  },
+
+  // 🌶️ Spices
+  turmeric: {
+    type: "spices",
+    regions: {
+      telangana: {
+        climate: "semi-humid",
+        schedule: {
+          Jan: "Harvesting",
+          Feb: "Drying",
+          Mar: "Storage",
+          Apr: "Land prep",
+          May: "Sowing",
+          Jun: "Irrigation",
+          Jul: "Weeding",
+          Aug: "Pest control",
+          Sep: "Growth monitoring",
+          Oct: "Fertilizer application",
+          Nov: "Soil testing",
+          Dec: "Seed selection"
+        }
+      }
+    }
+  },
+  chili: {
+    type: "spices",
+    regions: {
+      odisha: {
+        climate: "humid",
+        schedule: {
+          Jan: "Seed selection",
+          Feb: "Nursery raising",
+          Mar: "Transplanting",
+          Apr: "Irrigation",
+          May: "Weeding",
+          Jun: "Pest control",
+          Jul: "Flowering",
+          Aug: "Fruit development",
+          Sep: "Harvesting",
+          Oct: "Drying",
+          Nov: "Storage",
+          Dec: "Land rest"
+        }
+      }
+    }
+  },
+
+  // 🌻 Oilseeds
+  mustard: {
+    type: "oilseeds",
+    regions: {
+      rajasthan: {
+        climate: "arid",
+        schedule: {
+          Jan: "Flowering",
+          Feb: "Pod formation",
+          Mar: "Harvesting",
+          Apr: "Threshing",
+          May: "Storage",
+          Jun: "Soil rest",
+          Jul: "Seed selection",
+          Aug: "Land prep",
+          Sep: "Sowing",
+          Oct: "Irrigation",
+          Nov: "Weeding",
+          Dec: "Pest control"
+        }
+      }
+    }
+  },
+  groundnut: {
+    type: "oilseeds",
+    regions: {
+      gujarat: {
+        climate: "dry",
+        schedule: {
+          Jan: "Seed selection",
+          Feb: "Land prep",
+          Mar: "Sowing",
+          Apr: "Irrigation",
+          May: "Weeding",
+          Jun: "Pest control",
+          Jul: "Flowering",
+          Aug: "Pod formation",
+          Sep: "Harvesting",
+          Oct: "Drying",
+          Nov: "Storage",
+          Dec: "Soil rest"
+        }
+      }
+    }
+  },
+
+  // 🧵 Fibers
+  cotton: {
+    type: "fibers",
+    regions: {
+      maharashtra: {
+        climate: "semi-arid",
+        schedule: {
+          Jan: "Field rest",
+          Feb: "Seed selection",
+          Mar: "Sowing",
+          Apr: "Irrigation",
+          May: "Weeding",
+          Jun: "Pest control",
+          Jul: "Flowering",
+          Aug: "Boll formation",
+          Sep: "Harvesting",
+          Oct: "Ginning",
+          Nov: "Storage",
+          Dec: "Soil testing"
+        }
+      }
+    }
+  },
+  jute: {
+    type: "fibers",
+    regions: {
+      assam: {
+        climate: "humid",
+        schedule: {
+          Jan: "Land prep",
+          Feb: "Seed selection",
+          Mar: "Sowing",
+          Apr: "Weeding",
+          May: "Irrigation",
+          Jun: "Growth monitoring",
+          Jul: "Harvesting",
+          Aug: "Retting",
+          Sep: "Fiber extraction",
+          Oct: "Drying",
+          Nov: "Storage",
+          Dec: "Soil rest"
+        }
+      }
+    }
+  }
+
+};
+
+// 🧠 Update Crop Dropdown Based on Type
+function updateCropOptions() {
+  const type = document.getElementById("typeSelect").value;
+  const cropSelect = document.getElementById("cropSelect");
+  cropSelect.innerHTML = "<option value=''>Select Crop</option>";
+  document.getElementById("regionSelect").innerHTML = "<option value=''>Select Region</option>";
+
+  Object.keys(cropSchedules).forEach(crop => {
+    if (cropSchedules[crop].type === type) {
+      const opt = document.createElement("option");
+      opt.value = crop;
+      opt.textContent = crop.charAt(0).toUpperCase() + crop.slice(1);
+      cropSelect.appendChild(opt);
+    }
+  });
+}
+
+// 🌍 Update Region Dropdown Based on Crop
+function updateRegionOptions() {
+  const crop = document.getElementById("cropSelect").value;
+  const regionSelect = document.getElementById("regionSelect");
+  regionSelect.innerHTML = "<option value=''>Select Region</option>";
+
+  if (cropSchedules[crop]) {
+    Object.keys(cropSchedules[crop].regions).forEach(region => {
+      const opt = document.createElement("option");
+      opt.value = region;
+      opt.textContent = region.replace(/([A-Z])/g, ' $1').replace(/^./, str => str.toUpperCase());
+      regionSelect.appendChild(opt);
+    });
+  }
+}
+
+// 📅 Show Full Schedule
+function showFullSchedule() {
+  const crop = document.getElementById("cropSelect").value;
+  const region = document.getElementById("regionSelect").value;
+  const results = document.getElementById("calendar-results");
+
+  if (!crop || !region) {
+    results.innerHTML = "<p style='color:red; text-align:center;'>⚠ Please select crop and region.</p>";
+    return;
+  }
+
+  const regionData = cropSchedules[crop]?.regions?.[region];
+  if (!regionData || !regionData.schedule) {
+    results.innerHTML = "<p style='color:red; text-align:center;'>⚠ No schedule found for this crop and region.</p>";
+    return;
+  }
+
+  let html = `<h2 style="color:#2e7d32; text-align:center;">📌 ${crop.charAt(0).toUpperCase() + crop.slice(1)} Schedule for ${region.replace(/([A-Z])/g, ' $1')}</h2>`;
+  html += `<p style="text-align:center; color:#555;size:40px;">Climate: ${regionData.climate}</p>`;
+  html += "<div style='display:grid; grid-template-columns: repeat(2,1fr); gap:10px; margin-top:15px;'>";
+
+  for (const [month, task] of Object.entries(regionData.schedule)) {
+    html += `<div style="background:#e8f5e9; padding:10px; border-radius:8px; box-shadow:0 2px 5px rgba(0,0,0,0.05);">
+               <strong>${month}:</strong> <br> ${task}
+             </div>`;
+  }
+  html += "</div>";
+
+  results.innerHTML = html;
+}
+</script>

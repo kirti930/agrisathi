@@ -1,0 +1,198 @@
+{
+  "january": {
+    "cereals": {
+      "Wheat": {
+        "sowing": "November - December",
+        "growing": "January - February",
+        "irrigation": "At crown root, tillering, flowering",
+        "harvesting": "March - April"
+      },
+      "Barley": {
+        "sowing": "November",
+        "growing": "December - February",
+        "irrigation": "At tillering and heading stage",
+        "harvesting": "March - April"
+      }
+    },
+    "pulses": {
+      "Chickpea": {
+        "sowing": "November",
+        "growing": "December - February",
+        "irrigation": "Branching, flowering & pod filling",
+        "harvesting": "March"
+      },
+      "Lentil": {
+        "sowing": "November",
+        "growing": "December - February",
+        "irrigation": "Light irrigation at flowering & pod filling",
+        "harvesting": "March"
+      }
+    },
+    "vegetables": {
+      "Cauliflower": {
+        "sowing": "October - November",
+        "growing": "December - January",
+        "irrigation": "Every 10–15 days",
+        "harvesting": "January - February"
+      },
+      "Peas": {
+        "sowing": "October - November",
+        "growing": "December - January",
+        "irrigation": "At flowering and pod filling",
+        "harvesting": "February"
+      }
+    },
+    "cashCrops": {
+      "Mustard": {
+        "sowing": "October - November",
+        "growing": "December - January",
+        "irrigation": "At branching, flowering & pod filling",
+        "harvesting": "February - March"
+      },
+      "Sugarcane": {
+        "sowing": "February - March (main season)",
+        "growing": "Year-round (12–16 months)",
+        "irrigation": "Every 10–12 days in summer",
+        "harvesting": "Next year"
+      }
+    },
+    "oilseeds": {
+      "Rapeseed": {
+        "sowing": "October - November",
+        "growing": "December - January",
+        "irrigation": "Flowering and pod formation",
+        "harvesting": "February - March"
+      }
+    }
+  },
+
+  "february": {
+    "cereals": {
+      "Wheat": {
+        "sowing": "November - December",
+        "growing": "January - February",
+        "irrigation": "Tillering, jointing & flowering",
+        "harvesting": "March - April"
+      },
+      "Barley": {
+        "sowing": "November",
+        "growing": "January - February",
+        "irrigation": "At heading",
+        "harvesting": "March - April"
+      }
+    },
+    "pulses": {
+      "Chickpea": {
+        "sowing": "November",
+        "growing": "December - February",
+        "irrigation": "Branching, flowering & pod filling",
+        "harvesting": "March"
+      },
+      "Lentil": {
+        "sowing": "November",
+        "growing": "December - February",
+        "irrigation": "Flowering & pod filling",
+        "harvesting": "March"
+      }
+    },
+    "vegetables": {
+      "Tomato": {
+        "sowing": "December - January",
+        "growing": "February - April",
+        "irrigation": "Every 7–10 days",
+        "harvesting": "April - May"
+      },
+      "Onion": {
+        "sowing": "January - February",
+        "growing": "February - April",
+        "irrigation": "Every 12–15 days",
+        "harvesting": "May - June"
+      }
+    },
+    "cashCrops": {
+      "Sugarcane": {
+        "sowing": "February - March",
+        "growing": "Year-round",
+        "irrigation": "10–12 days in summer",
+        "harvesting": "Next year"
+      }
+    },
+    "oilseeds": {
+      "Mustard": {
+        "sowing": "October - November",
+        "growing": "December - February",
+        "irrigation": "Pod formation",
+        "harvesting": "February - March"
+      }
+    }
+  },
+
+  "march": {
+    "cereals": {
+      "Wheat": {
+        "sowing": "November - December",
+        "growing": "January - February",
+        "irrigation": "Flowering & grain filling",
+        "harvesting": "March - April"
+      },
+      "Barley": {
+        "sowing": "November",
+        "growing": "December - February",
+        "irrigation": "At heading",
+        "harvesting": "March - April"
+      }
+    },
+    "pulses": {
+      "Chickpea": {
+        "sowing": "November",
+        "growing": "December - February",
+        "irrigation": "At pod filling",
+        "harvesting": "March"
+      },
+      "Lentil": {
+        "sowing": "November",
+        "growing": "December - February",
+        "irrigation": "At pod filling",
+        "harvesting": "March"
+      }
+    },
+    "vegetables": {
+      "Potato": {
+        "sowing": "October - November",
+        "growing": "December - February",
+        "irrigation": "Every 12–15 days",
+        "harvesting": "March"
+      },
+      "Onion": {
+        "sowing": "January - February",
+        "growing": "March - April",
+        "irrigation": "Every 12–15 days",
+        "harvesting": "May - June"
+      }
+    },
+    "cashCrops": {
+      "Mustard": {
+        "sowing": "October - November",
+        "growing": "December - February",
+        "irrigation": "Pod maturity",
+        "harvesting": "March"
+      },
+      "Cotton": {
+        "sowing": "March - April (some states)",
+        "growing": "April - September",
+        "irrigation": "Every 15 days",
+        "harvesting": "September - October"
+      }
+    },
+    "oilseeds": {
+      "Groundnut": {
+        "sowing": "March - April",
+        "growing": "April - July",
+        "irrigation": "At flowering & pod development",
+        "harvesting": "July - August"
+      }
+    }
+  }
+
+  // ... (repeat for April – December in same format)
+}
